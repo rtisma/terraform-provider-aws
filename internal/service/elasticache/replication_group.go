@@ -476,7 +476,7 @@ func resourceReplicationGroupCreate(ctx context.Context, d *schema.ResourceData,
 		if id == nil {
 			return sdkdiag.AppendErrorf(diags, "could not find ElastiCache Global Replication Group (%s)", v.(string))
 		}
-		fmt.Println("ROBBBB  id.Engine = " + *id.Engine)
+		fmt.Println("ROBBBB  input.Engine=" + *input.Engine + "  id.Engine = " + *id.Engine)
 		input.Engine = id.Engine
 	} else {
 		// This cannot be handled at plan-time
