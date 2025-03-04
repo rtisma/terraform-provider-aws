@@ -469,6 +469,15 @@ func resourceReplicationGroupCreate(ctx context.Context, d *schema.ResourceData,
 
 	if v, ok := d.GetOk("global_replication_group_id"); ok {
 		input.GlobalReplicationGroupId = aws.String(v.(string))
+		id, err := findGlobalReplicationGroupByID(ctx, conn, v.(string))
+		if err != nil {
+			return sdkdiag.AppendErrorf(diags, "finding ElastiCache Global Replication Group (%s): %s", v.(string), err)
+		}
+		if id == nil {
+			return sdkdiag.AppendErrorf(diags, "could not find ElastiCache Global Replication Group (%s)", v.(string))
+		}
+		fmt.Println("ROBBBB  id.Engine = " + *id.Engine)
+		input.Engine = id.Engine
 	} else {
 		// This cannot be handled at plan-time
 		nodeType := d.Get("node_type").(string)
